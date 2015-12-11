@@ -22,6 +22,26 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+// routing of the app
+.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
+  .state('tabs', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/tabs.html'
+  })
+  .state('tabs.list', {
+    url: '/list',
+    views: {
+      'list-tab' : {
+        templateUrl: 'templates/list.html',
+        controller: 'ListController'
+      }
+    }
+  })
+  $urlRouterProvider.otherwise('/tab/list');
+
+})
 
 .controller('ListController', ['$scope', '$http', function($scope, $http) {
   $http.get('js/data.json').success(function(data) {
