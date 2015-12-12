@@ -40,10 +40,19 @@ angular.module('starter', ['ionic'])
         }
       })
       .state('tabs.list', {
-        url: '/list',
+      url: '/list',
+      views: {
+        'list-tab': {
+          templateUrl: 'templates/list.html',
+          controller: 'ListController'
+        }
+      }
+    })
+      .state('tabs.detail', {
+        url: '/list/:aId',
         views: {
           'list-tab': {
-            templateUrl: 'templates/list.html',
+            templateUrl: 'templates/detail.html',
             controller: 'ListController'
           }
         }
@@ -52,12 +61,14 @@ angular.module('starter', ['ionic'])
 
   })
 
-  .controller('ListController', ['$scope', '$http', function ($scope, $http) {
+  .controller('ListController', ['$scope', '$http','$state', function ($scope, $http, $state) {
     $http.get('js/data.json').success(function (data) {
       $scope.artists = data;
+      $scope.whichArtist = $state.params.aId;
       $scope.onItemDelete = function (item) {
         $scope.artists.splice($scope.artists.indexOf(item), 1)
       };
+
 
       $scope.doRefresh = function () {
         $http.get('js/data.json').success(function (data) {
